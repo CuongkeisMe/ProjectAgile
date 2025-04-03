@@ -40,6 +40,25 @@ li:hover {
     background-color: #EDF0F6;
 }
 
-.card {
-    margin: 20px;
+.card-title, .card-text, .card-link {
+    font-weight: bold;
+    color: white;
 }
+
+.card {
+    margin: 10px;
+    max-width: 50%;
+}
+
+.card-link {
+    text-decoration: none;
+}
+
+.card-link:hover {
+    color: #377EA8;
+}
+
+.card.blue { background-color: #01BAFA; }
+.card.green { background-color: #01A65A; }
+.card.yellow { background-color: #CF8511; }
+.card.red { background-color: #BC3F30; }
