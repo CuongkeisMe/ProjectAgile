@@ -1,0 +1,45 @@
+.header {
+    background-color: #377EA8!important;
+}
+
+.sidebar {
+    background-color: #222C34;
+}
+
+.nav-item {
+    padding: 10px 15px;
+    width: 100%;
+}
+
+i {
+    margin-right: 5px;
+}
+
+li:hover {
+    background-color: #1D282B;
+}
+
+.nav-link {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.content {
+    border: 1px solid #E6E8EC;
+    margin-top: 15px;
+    margin-left: -10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.main {
+    background-color: #EDF0F6;
+}
+
+.card {
+    margin: 20px;
+}
