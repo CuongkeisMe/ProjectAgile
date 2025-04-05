@@ -14,6 +14,7 @@ CREATE TABLE [User] (
 -- Bảng KhoaHoc
 CREATE TABLE KhoaHoc (
                          id_khoahoc INT IDENTITY(1,1) PRIMARY KEY,
+                         ma_khoahoc NVARCHAR(50) UNIQUE NOT NULL,  -- Added ma_khoahoc column for code
                          ten_khoahoc NVARCHAR(100) NOT NULL,
                          thoi_gian_bat_dau DATE,
                          thoi_gian_ket_thuc DATE
@@ -22,6 +23,7 @@ CREATE TABLE KhoaHoc (
 -- Bảng Lop
 CREATE TABLE Lop (
                      id_lop INT IDENTITY(1,1) PRIMARY KEY,
+                     ma_lop NVARCHAR(50) UNIQUE NOT NULL,  -- Added ma_lop column for code
                      ten_lop NVARCHAR(50) NOT NULL,
                      id_khoahoc INT,
                      FOREIGN KEY (id_khoahoc) REFERENCES KhoaHoc(id_khoahoc)
@@ -30,6 +32,7 @@ CREATE TABLE Lop (
 -- Bảng SinhVien
 CREATE TABLE SinhVien (
                           id_sinhvien INT IDENTITY(1,1) PRIMARY KEY,
+                          ma_sinhvien NVARCHAR(50) UNIQUE NOT NULL,  -- Added ma_sinhvien column for code
                           ho_ten NVARCHAR(100) NOT NULL,
                           email NVARCHAR(100) UNIQUE NOT NULL,
                           so_dien_thoai NVARCHAR(15),
@@ -40,6 +43,7 @@ CREATE TABLE SinhVien (
 -- Bảng GiangVien
 CREATE TABLE GiangVien (
                            id_giangvien INT IDENTITY(1,1) PRIMARY KEY,
+                           ma_giangvien NVARCHAR(50) UNIQUE NOT NULL,  -- Added ma_giangvien column for code
                            ho_ten NVARCHAR(100) NOT NULL,
                            email NVARCHAR(100) UNIQUE NOT NULL,
                            so_dien_thoai NVARCHAR(15)
@@ -48,6 +52,7 @@ CREATE TABLE GiangVien (
 -- Bảng MonHoc
 CREATE TABLE MonHoc (
                         id_monhoc INT IDENTITY(1,1) PRIMARY KEY,
+                        ma_monhoc NVARCHAR(50) UNIQUE NOT NULL,  -- Added ma_monhoc column for code
                         ten_monhoc NVARCHAR(100) NOT NULL,
                         id_giangvien INT,
                         FOREIGN KEY (id_giangvien) REFERENCES GiangVien(id_giangvien)
@@ -83,85 +88,118 @@ CREATE TABLE LichGiangDay (
                               FOREIGN KEY (id_monhoc) REFERENCES MonHoc(id_monhoc)
 );
 
-
--- Bảng KhoaHoc (5 dòng)
-INSERT INTO KhoaHoc (ten_khoahoc, thoi_gian_bat_dau, thoi_gian_ket_thuc)
+-- Insert into [User] table
+INSERT INTO [User] (username, password, role)
 VALUES
-    ('Khoa CNTT', '2024-01-01', '2027-01-01'),
-    ('Khoa Kinh Tế', '2024-02-01', '2027-02-01'),
-    ('Khoa Cơ Khí', '2024-03-01', '2027-03-01'),
-    ('Khoa Điện Tử', '2024-04-01', '2027-04-01'),
-    ('Khoa Y Dược', '2024-05-01', '2027-05-01');
+    ('admin_user', 'admin_password', 'admin'),
+    ('teacher_user', 'teacher_password', 'teacher'),
+    ('student_user', 'student_password', 'student');
 
--- Bảng Lop (10 dòng)
-INSERT INTO Lop (ten_lop, id_khoahoc)
+-- Insert into KhoaHoc table
+INSERT INTO KhoaHoc (ma_khoahoc, ten_khoahoc, thoi_gian_bat_dau, thoi_gian_ket_thuc)
 VALUES
-    ('Lop CNTT 1', 1),
-    ('Lop CNTT 2', 1),
-    ('Lop CNTT 3', 1),
-    ('Lop Kinh Tế 1', 2),
-    ('Lop Kinh Tế 2', 2),
-    ('Lop Cơ Khí 1', 3),
-    ('Lop Cơ Khí 2', 3),
-    ('Lop Điện Tử 1', 4),
-    ('Lop Điện Tử 2', 4),
-    ('Lop Y Dược 1', 5);
+    ('KH001', N'Lập Trình Java', '2025-01-01', '2025-06-01'),
+    ('KH002', N'Cơ Sở Dữ Liệu', '2025-02-01', '2025-07-01'),
+    ('KH003', N'Mạng Máy Tính', '2025-03-01', '2025-08-01'),
+    ('KH004', N'Tiếng anh 1.1', '2025-01-21', '2025-03-30');
 
--- Bảng SinhVien (20 dòng)
-INSERT INTO SinhVien (ho_ten, email, so_dien_thoai, id_lop)
+-- Insert into Lop table
+INSERT INTO Lop (ma_lop, ten_lop, id_khoahoc)
 VALUES
-    ('Nguyen Van A', 'a@gmail.com', '0123456789', 1),
-    ('Tran Thi B', 'b@gmail.com', '0987654321', 1),
-    ('Le Van C', 'c@gmail.com', '0345678912', 2),
-    ('Hoang Thi D', 'd@gmail.com', '0356789123', 2),
-    ('Pham Van E', 'e@gmail.com', '0367891234', 3),
-    ('Bui Thi F', 'f@gmail.com', '0378912345', 3),
-    ('Do Van G', 'g@gmail.com', '0389123456', 4),
-    ('Ngo Thi H', 'h@gmail.com', '0391234567', 4),
-    ('Vu Van I', 'i@gmail.com', '0312345678', 5),
-    ('Dang Thi J', 'j@gmail.com', '0323456789', 5);
+    ('L001', N'Lớp A - Lập Trình Java', 1),
+    ('L002', N'Lớp B - Cơ Sở Dữ Liệu', 2),
+    ('L003', N'Lớp C - Mạng Máy Tính', 3);
 
--- Bảng GiangVien (10 dòng)
-INSERT INTO GiangVien (ho_ten, email, so_dien_thoai)
+-- Insert into GiangVien table
+INSERT INTO GiangVien (ma_giangvien, ho_ten, email, so_dien_thoai)
 VALUES
-    ('Thầy Nguyễn Văn M', 'm@gmail.com', '0901234567'),
-    ('Cô Trần Thị N', 'n@gmail.com', '0912345678'),
-    ('Thầy Lê Văn P', 'p@gmail.com', '0923456789'),
-    ('Cô Hoàng Thị Q', 'q@gmail.com', '0934567890'),
-    ('Thầy Phạm Văn R', 'r@gmail.com', '0945678901');
+    ('GV001', N'Lê Minh C', 'leminhc@example.com', '0912345678'),
+    ('GV002', N'Phan Hoàng D', 'phanhoangd@example.com', '0976543210'),
+    ('GV003', N'Tào Duy H', 'duyh1234@example.com', '0123456654');
 
--- Bảng MonHoc (10 dòng)
-INSERT INTO MonHoc (ten_monhoc, id_giangvien)
+-- Insert into MonHoc table
+INSERT INTO MonHoc (ma_monhoc, ten_monhoc, id_giangvien)
 VALUES
-    ('Lập trình Java', 1),
-    ('Kế toán tài chính', 2),
-    ('Cơ học kỹ thuật', 3),
-    ('Quản trị kinh doanh', 4),
-    ('Hệ thống nhúng', 5);
+    ('MH001', N'Lập Trình Java', 1),
+    ('MH002', N'Cơ Sở Dữ Liệu', 2),
+    ('MH003', N'Mạng Máy Tính', 1),
+    ('MH004', N'Tiếng anh 1.1', 3);
 
--- Bảng LichGiangDay (10 dòng)
-INSERT INTO LichGiangDay (id_giangvien, id_monhoc, ngay_day)
+-- Insert into SinhVien table
+-- 1st Lecturer (Lê Minh C) teaches 'Lập Trình Java' and 'Mạng Máy Tính'
+INSERT INTO SinhVien (ma_sinhvien, ho_ten, email, so_dien_thoai, id_lop)
 VALUES
-    (1, 1, '2024-09-01'),
-    (2, 2, '2024-09-02'),
-    (3, 3, '2024-09-03'),
-    (4, 4, '2024-09-04'),
-    (5, 5, '2024-09-05');
+    ('SV001', N'Nguyễn Văn A', 'nguyenvana@example.com', '0123456789', 1),
+    ('SV002', N'Trần Thị B', 'tranthib@example.com', '0987654321', 1),
+    ('SV003', N'Lê Minh C', 'leminhc2@example.com', '0123498765', 3),
+    ('SV004', N'Nguyễn Thiên D', 'nguyenhiend@example.com', '0987321987', 1),
+    ('SV005', N'Phan Thanh E', 'phanthanh@example.com', '0976123456', 1),
+    ('SV006', N'Trần Lệ F', 'tranlef@example.com', '0907654321', 1),
+    ('SV007', N'Lâm Hoàng G', 'lamhoangg@example.com', '0123456710', 3),
+    ('SV008', N'Đặng Hoàng H', 'danghoangh@example.com', '0922334455', 1),
+    ('SV009', N'Bùi Thái I', 'buihai@example.com', '0987123456', 1),
+    ('SV010', N'Ngô Trúc K', 'ngotruc@example.com', '0912345678', 3),
+    ('SV011', N'Võ Minh L', 'vominhl@example.com', '0987654321', 1),
+    ('SV012', N'Trương Thiên M', 'truongm@example.com', '0931245789', 1),
+    ('SV013', N'Đoàn Lê N', 'doanl@example.com', '0907654321', 1),
+    ('SV014', N'Lê Quang O', 'lequang@example.com', '0987654321', 3),
+    ('SV015', N'Trần Đại P', 'trandai@example.com', '0934567890', 3);
 
--- Bảng Diem (20 dòng)
+-- 2nd Lecturer (Phan Hoàng D) teaches 'Cơ Sở Dữ Liệu'
+INSERT INTO SinhVien (ma_sinhvien, ho_ten, email, so_dien_thoai, id_lop)
+VALUES
+    ('SV016', N'Nguyễn Hoàng Q', 'nguyenhoangq@example.com', '0908765432', 2),
+    ('SV017', N'Lê Hải R', 'lehaire@example.com', '0923456789', 2),
+    ('SV018', N'Trần Thiên S', 'tranthienS@example.com', '0987654321', 3),
+    ('SV019', N'Ngô Hoàng T', 'ngohangT@example.com', '0901234567', 2),
+    ('SV020', N'Phan Minh U', 'phanminhu@example.com', '0934567890', 2),
+    ('SV021', N'Lâm Thiên V', 'lamthienV@example.com', '0912345678', 3),
+    ('SV022', N'Võ Đình W', 'vodinhW@example.com', '0935678901', 2),
+    ('SV023', N'Bùi Minh X', 'buiminhX@example.com', '0987321987', 2),
+    ('SV024', N'Trương Thiên Y', 'truongthienY@example.com', '0922334455', 2),
+    ('SV025', N'Đoàn Quang Z', 'doanquangZ@example.com', '0908765432', 2);
+
+-- Insert into Diem table (adding grades for students in each subject)
+-- For 'Lập Trình Java' (Course ID 1)
 INSERT INTO Diem (id_sinhvien, id_monhoc, diem_so)
 VALUES
-    (1, 1, 8.5),
-    (2, 1, 7.5),
-    (3, 2, 9.0),
-    (4, 2, 6.5),
-    (5, 3, 8.0);
+    (1, 1, 8.5), (2, 1, 9.0), (3, 1, 7.5), (4, 1, 8.0), (5, 1, 8.5),
+    (6, 1, 9.2), (7, 1, 7.8), (8, 1, 8.0), (9, 1, 8.3), (10, 1, 9.1),
+    (11, 1, 7.9), (12, 1, 8.4), (13, 1, 7.8), (14, 1, 8.6), (15, 1, 9.0);
 
--- Bảng User (5 dòng)
-INSERT INTO Users (username, password, role)
+-- For 'Cơ Sở Dữ Liệu' (Course ID 2)
+INSERT INTO Diem (id_sinhvien, id_monhoc, diem_so)
 VALUES
-    ('admin', 'admin123', 'admin'),
-    ('teacher1', 'teacher123', 'teacher'),
-    ('student1', 'student123', 'student'),
-    ('teacher2', 'teacher456', 'teacher'),
-    ('student2', 'student456', 'student');
+    (16, 2, 7.5), (17, 2, 8.0), (18, 2, 9.0), (19, 2, 8.5), (20, 2, 7.9),
+    (21, 2, 8.6), (22, 2, 9.2), (23, 2, 8.0), (24, 2, 7.7), (25, 2, 9.0);
+
+-- Insert into LichHoc table (schedules for courses)
+-- For 'Lập Trình Java' (Course ID 1)
+INSERT INTO LichHoc (id_monhoc, ngay_hoc, gio_bat_dau, gio_ket_thuc)
+VALUES
+    (1, '2025-01-15', '08:00', '10:00'),  -- Lập Trình Java schedule
+    (1, '2025-01-20', '10:30', '12:30'),
+    (1, '2025-01-25', '14:00', '16:00');
+
+-- For 'Cơ Sở Dữ Liệu' (Course ID 2)
+INSERT INTO LichHoc (id_monhoc, ngay_hoc, gio_bat_dau, gio_ket_thuc)
+VALUES
+    (2, '2025-02-10', '14:00', '16:00'),  -- Cơ Sở Dữ Liệu schedule
+    (2, '2025-02-15', '09:00', '11:00'),
+    (2, '2025-02-20', '13:30', '15:30');
+
+-- Insert into LichGiangDay table (teaching schedule for each lecturer)
+-- For 'Lê Minh C' teaching 'Lập Trình Java'
+INSERT INTO LichGiangDay (id_giangvien, id_monhoc, ngay_day)
+VALUES
+    (1, 1, '2025-01-15'),
+    (1, 1, '2025-01-20'),
+    (1, 1, '2025-01-25');
+
+-- For 'Phan Hoàng D' teaching 'Cơ Sở Dữ Liệu'
+INSERT INTO LichGiangDay (id_giangvien, id_monhoc, ngay_day)
+VALUES
+    (2, 2, '2025-02-10'),
+    (2, 2, '2025-02-15'),
+    (2, 2, '2025-02-20');
+
