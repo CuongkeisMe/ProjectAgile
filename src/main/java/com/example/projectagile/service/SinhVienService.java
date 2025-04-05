@@ -1,5 +1,6 @@
 package com.example.projectagile.service;
 
+import com.example.projectagile.dto.SinhVienDTO;
 import com.example.projectagile.model.SinhVien;
 import com.example.projectagile.repository.SinhVienRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SinhVienService {
+public class SinhVienService implements ISinhVienService {
 
+    private final SinhVienRepository sinhVienRepository;
+
+    @Override
+    public List<SinhVienDTO> getAllSinhVien(Long idGiangVien) {
+        return sinhVienRepository.getAllSinhVien(idGiangVien);
+    }
 }

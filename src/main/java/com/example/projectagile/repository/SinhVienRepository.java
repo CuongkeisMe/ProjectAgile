@@ -1,5 +1,6 @@
 package com.example.projectagile.repository;
 
+import com.example.projectagile.dto.SinhVienDTO;
 import com.example.projectagile.model.SinhVien;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface SinhVienRepository extends JpaRepository<SinhVien, Long> {
-//    @Query("SELECT sv FROM SinhVien sv JOIN sv.lop l JOIN MonHoc mh ON mh.idMonHoc = l.idLop " +
-//            "WHERE mh.giangVien.idGiangVien = :giangVienId")
-//    List<SinhVien> findByGiangVienId(@Param("giangVienId") Long giangVienId);
+    @Query("SELECT new com.example.projectagile.dto.SinhVienDTO(sv.idSinhVien, sv.maSinhVien, sv.hoTen, l.tenLop, kh.tenKhoaHoc) FROM SinhVien sv JOIN Lop l ON sv.lop.idLop = l.idLop JOIN KhoaHoc kh ON l.khoaHoc.idKhoaHoc = kh.idKhoaHoc JOIN Diem d ON sv.idSinhVien = d.sinhVien.idSinhVien JOIN MonHoc mh ON d.monHoc.idMonHoc = mh.idMonHoc WHERE mh.giangVien.idGiangVien = ?1")
+    List<SinhVienDTO> getAllSinhVien(@Param("id_giangvien") Long idGiangVien);
 }

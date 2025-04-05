@@ -12,4 +12,6 @@ import java.util.List;
 @Repository
 public interface GiangVienRepository extends JpaRepository<GiangVien, Long> {
     boolean existsBysoDienThoai(String phone);
+    @Query("SELECT gv FROM GiangVien gv WHERE gv.user.username = :username")
+    GiangVien findByUsername(@Param("username") String username);
 }

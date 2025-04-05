@@ -3,7 +3,6 @@ package com.example.projectagile.service;
 import com.example.projectagile.exception.DataNotFoundException;
 import com.example.projectagile.model.User;
 import com.example.projectagile.repository.UserRepository;
-import com.example.projectagile.service.impl.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

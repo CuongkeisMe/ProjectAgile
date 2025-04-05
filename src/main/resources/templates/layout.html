@@ -20,7 +20,8 @@
             </div>
             <!-- Nội dung động -->
             <main class="main col-md-10 ms-sm-auto px-4">
-                <div th:replace="~{home :: content}">
+                <div th:replace="~{${nameFile} :: content}">
+                    <!-- Nội dung mặc định hoặc phần trống -->
                     <p>Nội dung mặc định của layout.</p>
                 </div>
             </main>

@@ -1,4 +1,4 @@
-package com.example.projectagile.service.impl;
+package com.example.projectagile.service;
 
 import com.example.projectagile.model.User;
 
