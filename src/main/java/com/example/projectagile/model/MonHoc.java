@@ -18,6 +18,8 @@ public class MonHoc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_monhoc")
     private Long idMonHoc;
+    @Column(name = "ma_monhoc")
+    private String maMonHoc;
     @Column(name = "ten_monhoc")
     private String tenMonHoc;
     @ManyToOne

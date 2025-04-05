@@ -18,6 +18,8 @@ public class SinhVien {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sinhvien")
     private Long idSinhVien;
+    @Column(name = "ma_sinhvien")
+    private String maSinhVien;
     @Column(name = "ho_ten")
     private String hoTen;
     @Column(name = "email")

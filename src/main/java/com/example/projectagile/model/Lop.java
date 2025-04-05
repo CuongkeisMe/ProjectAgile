@@ -18,6 +18,8 @@ public class Lop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_lop")
     private Long idLop;
+    @Column(name = "ma_lop")
+    private String maLop;
     @Column(name = "ten_lop")
     private String tenLop;
     @ManyToOne

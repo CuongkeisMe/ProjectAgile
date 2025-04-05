@@ -20,6 +20,8 @@ public class KhoaHoc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_khoahoc")
     private Long idKhoaHoc;
+    @Column(name = "ma_khoahoc")
+    private String maKhoaHoc;
     @Column(name = "ten_khoahoc")
     private String tenKhoaHoc;
     @Temporal(TemporalType.DATE)
