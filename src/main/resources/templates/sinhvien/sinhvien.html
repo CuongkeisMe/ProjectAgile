@@ -8,40 +8,44 @@
                     <i style="color: white" class="fas fa-plus"></i> Thêm mới
                 </a>
             </div>
-            <form th:action="@{/tim-kiem}" method="get">
+            <form th:action="@{/sinh-vien}" method="get">
                 <div class="row">
                     <!-- Ô nhập Mã sinh viên -->
                     <div class="col-md-2 mb-3">
-                        <input type="text" class="form-control" placeholder="Tìm mã sinh viên ..."/>
+                        <input type="text" name="maSinhVien" class="form-control" placeholder="Tìm mã sinh viên ..."
+                               th:value="${maSinhVien}" />
                     </div>
                     <!-- Ô nhập Tên sinh viên -->
                     <div class="col-md-2 mb-3">
-                        <input type="text" class="form-control" placeholder="Tìm tên sinh viên ..."/>
+                        <input type="text" name="tenSinhVien" class="form-control" placeholder="Tìm tên sinh viên ..."
+                               th:value="${tenSinhVien}" />
                     </div>
                     <!-- Menu thả xuống Khoa -->
                     <div class="col-md-2 mb-3">
-                        <select class="form-select">
-                            <option selected>Chọn khoa</option>
-                            <option th:each="kh : ${listKhoaHoc}" th:text="${kh.tenKhoaHoc}"
-                                    th:value="${kh.idKhoaHoc}"></option>
+                        <select name="khoaHoc" class="form-select">
+                            <option value="" th:selected="${khoaHoc == null}">Chọn khoa</option>
+                            <option th:each="kh : ${listKhoaHoc}" th:value="${kh.idKhoaHoc}" th:text="${kh.tenKhoaHoc}"
+                                    th:selected="${kh.idKhoaHoc == idKhoaHoc}"></option>
                         </select>
                     </div>
+                    <!-- Menu thả xuống Lớp -->
                     <div class="col-md-2 mb-3">
-                        <select class="form-select">
-                            <option selected>Chọn lớp</option>
-                            <option th:each="l : ${listLop}" th:text="${l.tenLop}" th:value="${l.idLop}"></option>
+                        <select name="lop" class="form-select">
+                            <option value="" th:selected="${lop == null}">Chọn lớp</option>
+                            <option th:each="l : ${listLop}" th:value="${l.idLop}" th:text="${l.tenLop}"
+                                    th:selected="${l.idLop == idLop}"></option>
                         </select>
                     </div>
                     <!-- Nút Tìm kiếm -->
                     <div class="col-md-2 mb-3">
-                        <a href="#" class="btn btn-primary w-70">
-                            <i class="fa-solid fa-magnifying-glass"></i>Tìm kiếm
-                        </a>
+                        <button type="submit" class="btn btn-primary w-70">
+                            <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+                        </button>
                     </div>
                     <!-- Nút Reset -->
                     <div style="margin-left: -100px" class="col-md-2 mb-3">
-                        <a href="#" class="btn btn-danger w-50">
-                            <i class="fa-regular fa-circle-xmark"></i>Reset
+                        <a th:href="@{/sinh-vien}" class="btn btn-danger w-50">
+                            <i class="fa-regular fa-circle-xmark"></i> Reset
                         </a>
                     </div>
                 </div>

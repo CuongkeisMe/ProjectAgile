@@ -15,8 +15,8 @@ public class SinhVienService implements ISinhVienService {
     private final SinhVienRepository sinhVienRepository;
 
     @Override
-    public List<SinhVienDTO> getAllSinhVien(Long idGiangVien) {
-        return sinhVienRepository.getAllSinhVien(idGiangVien);
+    public List<SinhVienDTO> getAllSinhVien(Long idGiangVien, String maSinhVien, String tenSinhVien, Long idkhoaHoc, Long idLop) {
+        return sinhVienRepository.timKiemSinhVien(idGiangVien, maSinhVien, tenSinhVien, idkhoaHoc, idLop);
     }
 
     @Override
