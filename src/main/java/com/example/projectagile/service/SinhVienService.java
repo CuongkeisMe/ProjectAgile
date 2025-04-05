@@ -10,9 +10,5 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SinhVienService {
-    private final SinhVienRepository sinhVienRepository;
 
-    public List<SinhVien> getSinhVienByGiangVien(Long giangVienId) {
-        return sinhVienRepository.findByGiangVienId(giangVienId);
-    }
 }

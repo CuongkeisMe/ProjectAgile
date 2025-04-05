@@ -24,4 +24,7 @@ public class GiangVien {
     private String email;
     @Column(name = "so_dien_thoai")
     private String soDienThoai;
+    @OneToOne
+    @JoinColumn(name = "id_user")
+    private User user;
 }

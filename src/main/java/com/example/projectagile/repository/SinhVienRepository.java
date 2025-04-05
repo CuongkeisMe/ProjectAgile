@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface SinhVienRepository extends JpaRepository<SinhVien, Long> {
-    @Query("SELECT sv FROM SinhVien sv JOIN sv.lop l JOIN MonHoc mh ON mh.idMonHoc = l.idLop " +
-            "WHERE mh.giangVien.idGiangVien = :giangVienId")
-    List<SinhVien> findByGiangVienId(@Param("giangVienId") Long giangVienId);
+//    @Query("SELECT sv FROM SinhVien sv JOIN sv.lop l JOIN MonHoc mh ON mh.idMonHoc = l.idLop " +
+//            "WHERE mh.giangVien.idGiangVien = :giangVienId")
+//    List<SinhVien> findByGiangVienId(@Param("giangVienId") Long giangVienId);
 }

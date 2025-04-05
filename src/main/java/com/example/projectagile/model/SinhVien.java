@@ -27,4 +27,7 @@ public class SinhVien {
     @ManyToOne
     @JoinColumn(name = "id_lop")
     private Lop lop;
+    @OneToOne
+    @JoinColumn(name = "id_user")
+    private User user;
 }

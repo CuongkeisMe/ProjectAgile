@@ -11,5 +11,5 @@ import java.util.List;
 
 @Repository
 public interface GiangVienRepository extends JpaRepository<GiangVien, Long> {
-
+    boolean existsBysoDienThoai(String phone);
 }

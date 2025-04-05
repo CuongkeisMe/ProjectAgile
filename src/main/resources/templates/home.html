@@ -21,8 +21,8 @@
                             <div class="col-md-6">
                                 <div class="card-body">
                                     <h2 class="card-title">1</h2>
-                                    <p class="card-text">Khóa học</p>
-                                    <a class="card-link" href="#">Xem thêm
+                                    <p class="card-text">Khoa học</p>
+                                    <a class="card-link" th:href="@{/khoa-hoc}">Xem thêm
                                         <i class="fa-solid fa-arrow-right fa-fade"></i>
                                     </a>
                                 </div>
@@ -43,7 +43,7 @@
                                 <div class="card-body">
                                     <h2 class="card-title">1</h2>
                                     <p class="card-text">Lớp</p>
-                                    <a class="card-link" href="#">Xem thêm
+                                    <a class="card-link" th:href="@{/lop}">Xem thêm
                                         <i class="fa-solid fa-arrow-right fa-fade"></i>
                                     </a>
                                 </div>
@@ -64,7 +64,7 @@
                                 <div class="card-body">
                                     <h2 class="card-title">1</h2>
                                     <p class="card-text">Sinh viên</p>
-                                    <a class="card-link" href="#">Xem thêm
+                                    <a class="card-link"  th:href="@{/sinh-vien}">Xem thêm
                                         <i class="fa-solid fa-arrow-right fa-fade"></i>
                                     </a>
                                 </div>
@@ -85,7 +85,7 @@
                                 <div class="card-body">
                                     <h2 class="card-title">1</h2>
                                     <p class="card-text">Môn học</p>
-                                    <a class="card-link" href="#">Xem thêm
+                                    <a class="card-link" th:href="@{/mon-hoc}">Xem thêm
                                         <i class="fa-solid fa-arrow-right fa-fade"></i>
                                     </a>
                                 </div>
@@ -106,7 +106,7 @@
                                 <div class="card-body">
                                     <h2 class="card-title">1</h2>
                                     <p class="card-text">Giảng viên</p>
-                                    <a class="card-link" href="#">Xem thêm
+                                    <a class="card-link" th:href="@{/giang-vien}">Xem thêm
                                         <i class="fa-solid fa-arrow-right fa-fade"></i>
                                     </a>
                                 </div>
@@ -120,6 +120,10 @@
                 </div>
             </div>
         </div>
+
+        <p>Xin chào, <span th:text="${giangVien.hoTen}">Tên giảng viên</span></p>
+        <p>Id: <span th:text="${giangVien.idGiangVien}">Id giảng viên</span></p>
+        <p>Email: <span th:text="${giangVien.email}"></span></p>
     </div>
 </div>
 </body>
