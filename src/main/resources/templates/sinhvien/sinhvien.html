@@ -22,7 +22,7 @@
                     </div>
                     <!-- Menu thả xuống Khoa -->
                     <div class="col-md-2 mb-3">
-                        <select name="khoaHoc" class="form-select">
+                        <select name="idKhoaHoc" class="form-select">
                             <option value="" th:selected="${khoaHoc == null}">Chọn khoa</option>
                             <option th:each="kh : ${listKhoaHoc}" th:value="${kh.idKhoaHoc}" th:text="${kh.tenKhoaHoc}"
                                     th:selected="${kh.idKhoaHoc == idKhoaHoc}"></option>
@@ -30,7 +30,7 @@
                     </div>
                     <!-- Menu thả xuống Lớp -->
                     <div class="col-md-2 mb-3">
-                        <select name="lop" class="form-select">
+                        <select name="idLop" class="form-select">
                             <option value="" th:selected="${lop == null}">Chọn lớp</option>
                             <option th:each="l : ${listLop}" th:value="${l.idLop}" th:text="${l.tenLop}"
                                     th:selected="${l.idLop == idLop}"></option>

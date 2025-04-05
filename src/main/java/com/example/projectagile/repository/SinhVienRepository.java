@@ -21,14 +21,14 @@ public interface SinhVienRepository extends JpaRepository<SinhVien, Long> {
             + "WHERE mh.giangVien.idGiangVien = :idGiangVien "
             + "AND (:maSinhVien IS NULL OR sv.maSinhVien LIKE %:maSinhVien%) "
             + "AND (:tenSinhVien IS NULL OR sv.hoTen LIKE %:tenSinhVien%) "
-            + "AND (:khoaHoc IS NULL OR kh.idKhoaHoc = :khoaHoc) "
-            + "AND (:lop IS NULL OR l.idLop = :lop)")
+            + "AND (:idKhoaHoc IS NULL OR kh.idKhoaHoc = :idKhoaHoc) "
+            + "AND (:idLop IS NULL OR l.idLop = :idLop)")
     List<SinhVienDTO> timKiemSinhVien(
             @Param("idGiangVien") Long idGiangVien,
             @Param("maSinhVien") String maSinhVien,
             @Param("tenSinhVien") String tenSinhVien,
-            @Param("khoaHoc") Long khoaHoc,
-            @Param("lop") Long lop);
+            @Param("idKhoaHoc") Long idKhoaHoc,
+            @Param("idLop") Long idLop);
 
     // hao
     List<SinhVien> findByLop_IdLopAndLop_KhoaHoc_IdKhoaHoc(Long idLop, Long idKhoaHoc);

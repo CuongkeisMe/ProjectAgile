@@ -1,0 +1,73 @@
+<div th:fragment="content">
+    <div class="content-home">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 style="color: #564E5C; font-family: VnBlackH; margin-top: 10px; margin-bottom: 10px">Danh sách điểm</h2>
+                <a th:href="@{/diem/add}" style="margin-top: 7px" class="btn btn-primary">
+                    <i style="color: white" class="fas fa-plus"></i> Thêm mới
+                </a>
+            </div>
+            <form th:action="@{/diem}" method="get">
+                <div class="row">
+                    <!-- Ô nhập Tên Sinh viên -->
+                    <div class="col-md-2 mb-3">
+                        <input type="text" name="tenSinhVien" class="form-control" placeholder="Nhập tên sinh viên ..."
+                               th:value="${tenSinhVien}" />
+                    </div>
+                    <!-- Dropdown Chọn Môn học -->
+                    <div class="col-md-2 mb-3">
+                        <select name="idMonHoc" class="form-select">
+                            <option value="" th:selected="${idMonHoc == null}">Chọn môn học</option>
+                            <option th:each="mh : ${listMonHoc}" th:value="${mh.idMonHoc}" th:text="${mh.tenMonHoc}"
+                                    th:selected="${mh.idMonHoc == idMonHoc}">
+                            </option>
+                        </select>
+                    </div>
+                    <!-- Nút Tìm kiếm -->
+                    <div class="col-md-2 mb-3">
+                        <button type="submit" class="btn btn-primary w-70">
+                            <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+                        </button>
+                    </div>
+                    <!-- Nút Reset -->
+                    <div class="col-md-2 mb-3" style="margin-left: -100px">
+                        <a th:href="@{/diem}" class="btn btn-danger w-50">
+                            <i class="fa-regular fa-circle-xmark"></i> Reset
+                        </a>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã sinh viên</th>
+                    <th>Họ tên</th>
+                    <th>Môn học</th>
+                    <th>Điểm số</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="d, stat : ${listDiem}">
+                    <td th:text="${stat.index + 1}"></td> <!-- STT bắt đầu từ 1 -->
+                    <td th:text="${d.maSinhVien}"></td>
+                    <td th:text="${d.hoTen}"></td>
+                    <td th:text="${d.tenMonHoc}"></td>
+                    <td th:text="${d.diemSo}"></td>
+                    <td>
+                        <!-- Link Chỉnh sửa -->
+                        <a th:href="@{/diem/update/{id}(id=${d.idDiem})}">
+                            <i style="color: #e18827; padding-right: 10px" class="fas fa-edit"></i>
+                        </a>
+                        <!-- Link Xóa -->
+                        <a th:href="@{/diem/delete/{id}(id=${d.idDiem})}">
+                            <i style="color: red" class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
