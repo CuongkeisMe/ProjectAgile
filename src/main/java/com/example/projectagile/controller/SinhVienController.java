@@ -2,6 +2,8 @@ package com.example.projectagile.controller;
 
 import com.example.projectagile.dto.SinhVienDTO;
 import com.example.projectagile.service.GiangVienService;
+import com.example.projectagile.service.KhoaHocService;
+import com.example.projectagile.service.LopService;
 import com.example.projectagile.service.SinhVienService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import java.util.List;
 public class SinhVienController {
     private final SinhVienService sinhVienService;
     private final GiangVienService giangVienService;
+    private final KhoaHocService khoaHocService;
+    private final LopService lopService;
 
     @GetMapping("/sinh-vien")
     public String getStudentsByLoggedInGiangVien(Principal principal, Model model) {
@@ -27,6 +31,8 @@ public class SinhVienController {
         System.out.println("idGiangVien = " + idGiangVien);
         List<SinhVienDTO> listSinhVien = sinhVienService.getAllSinhVien(idGiangVien);
         model.addAttribute("listSinhVien", listSinhVien);
+        model.addAttribute("listKhoaHoc", khoaHocService.getAllKhoaHoc());
+        model.addAttribute("listLop", lopService.getAllLop());
         model.addAttribute("nameFile", "sinhvien/sinhvien");
         return "layout";
     }
