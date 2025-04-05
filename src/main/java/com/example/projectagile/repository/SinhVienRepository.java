@@ -13,4 +13,8 @@ import java.util.List;
 public interface SinhVienRepository extends JpaRepository<SinhVien, Long> {
     @Query("SELECT new com.example.projectagile.dto.SinhVienDTO(sv.idSinhVien, sv.maSinhVien, sv.hoTen, l.tenLop, kh.tenKhoaHoc) FROM SinhVien sv JOIN Lop l ON sv.lop.idLop = l.idLop JOIN KhoaHoc kh ON l.khoaHoc.idKhoaHoc = kh.idKhoaHoc JOIN Diem d ON sv.idSinhVien = d.sinhVien.idSinhVien JOIN MonHoc mh ON d.monHoc.idMonHoc = mh.idMonHoc WHERE mh.giangVien.idGiangVien = ?1")
     List<SinhVienDTO> getAllSinhVien(@Param("id_giangvien") Long idGiangVien);
+    List<SinhVien> findByLop_IdLopAndLop_KhoaHoc_IdKhoaHoc(Long idLop, Long idKhoaHoc);
+    List<SinhVien> findByLopIdLop(Long idLop);
+    List<SinhVien> findByLopKhoaHocIdKhoaHoc(Long idKhoaHoc);
+    List<SinhVien> findByLopIdLopAndLopKhoaHocIdKhoaHoc(Long idLop, Long idKhoaHoc);
 }

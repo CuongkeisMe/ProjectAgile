@@ -18,4 +18,9 @@ public class SinhVienService implements ISinhVienService {
     public List<SinhVienDTO> getAllSinhVien(Long idGiangVien) {
         return sinhVienRepository.getAllSinhVien(idGiangVien);
     }
+
+    @Override
+    public List<SinhVien> searchByLopAndKhoaHoc(Long idLop, Long idKhoaHoc) {
+        return sinhVienRepository.findByLop_IdLopAndLop_KhoaHoc_IdKhoaHoc(idLop, idKhoaHoc);
+    }
 }

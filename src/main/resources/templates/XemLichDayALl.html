@@ -1,0 +1,49 @@
+<div th:fragment="content">
+    <div class="container">
+        <div style="padding: 20px; margin: 15px -40px" class="content-home">
+            <form th:action="@{/sinhvien/search}" method="post">
+                <label for="idLop">Lớp:</label>
+                <select name="idLop" id="idLop" class="form-select">
+                    <option value="">All</option>
+                    <option th:each="lop : ${dsLop}"
+                            th:value="${lop.idLop}"
+                            th:text="${lop.tenLop}">
+                    </option>
+                </select>
+
+                <label for="idKhoaHoc">Khóa học:</label>
+                <select name="idKhoaHoc" id="idKhoaHoc" class="form-select">
+                    <option value="">All</option> <!-- ✅ Thêm dòng này -->
+                    <option th:each="khoa : ${dsKhoaHoc}"
+                            th:value="${khoa.idKhoaHoc}"
+                            th:text="${khoa.tenKhoaHoc}">
+                    </option>
+                </select>
+
+                <button type="submit" class="btn btn-primary mt-2">Tìm kiếm</button>
+            </form>
+
+            <div class="d-flex justify-content-center mt-4">
+                <table class="table table-bordered table-hover table-striped w-auto">
+                    <thead class="table-dark text-center"><tr>
+                        <th>id sinh viên</th>
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        <th>SĐT</th>
+                        <th>Lớp</th>
+                        <th>khóa học</th>
+                    </tr></thead>
+
+                    <tr th:each="sv: ${sv}">
+                        <td th:text="${sv.idSinhVien}"></td>
+                        <td th:text="${sv.hoTen}"></td>
+                        <td th:text="${sv.email}"></td>
+                        <td th:text="${sv.soDienThoai}"></td>
+                        <td th:text="${sv.lop.tenLop}"></td>
+                        <td th:text="${sv.lop.khoaHoc.tenKhoaHoc}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ISinhVienService {
     List<SinhVienDTO> getAllSinhVien(Long idGiangVien);
+    List<SinhVien> searchByLopAndKhoaHoc(Long idLop, Long idKhoaHoc);
 }
