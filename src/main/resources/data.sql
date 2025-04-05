@@ -203,3 +203,10 @@ VALUES
     (2, 2, '2025-02-15'),
     (2, 2, '2025-02-20');
 
+-- Thêm trường id_user vào bảng GiangVien
+ALTER TABLE GiangVien
+    ADD id_user INT;
+
+-- Cập nhật quan hệ với bảng User
+ALTER TABLE GiangVien
+    ADD CONSTRAINT FK_GiangVien_User FOREIGN KEY (id_user) REFERENCES [User](id_user);
