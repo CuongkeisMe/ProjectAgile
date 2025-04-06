@@ -6,6 +6,7 @@ import com.example.projectagile.model.SinhVien;
 import java.util.List;
 
 public interface ISinhVienService {
-    List<SinhVienDTO> getAllSinhVien(Long idGiangVien, String maSinhVien, String tenSinhVien, Long idkhoaHoc, Long idLop);
+    List<SinhVienDTO> getAllSinhVienTheoGiangVien(Long idGiangVien);
+    List<SinhVienDTO> getAllSinhVienAndSearch(Long idGiangVien, String maSinhVien, String tenSinhVien, Long idkhoaHoc, Long idLop);
     List<SinhVien> searchByLopAndKhoaHoc(Long idLop, Long idKhoaHoc);
 }

@@ -1,0 +1,40 @@
+<div th:fragment="content">
+    <div class="content-home">
+        <div style="height: 365px" class="container-fluid">
+            <h2 style="color: #564E5C; font-family: VnBlackH; margin-top: 10px; margin-bottom: 10px">
+                Chi tiết điểm của sinh viên: <span th:text="${diem.sinhVien.hoTen}"></span>
+            </h2>
+            <div>
+                <form th:action="@{/diem/update/{id}(id=${diem.idDiem})}" th:object="${diem}" method="post">
+                    <!-- Sinh viên -->
+                    <div class="form-group mb-3">
+                        <label style="margin-bottom: 8px" for="sinhVien">Sinh viên</label>
+                        <input type="text" class="form-control" id="sinhVien" th:field="*{sinhVien.hoTen}"
+                               readonly="readonly" th:value="${diem.sinhVien.hoTen}">
+                    </div>
+
+                    <!-- Môn học -->
+                    <div class="form-group mb-3">
+                        <label style="margin-bottom: 8px" for="monHoc">Môn học</label>
+                        <input type="text" class="form-control" id="monHoc" th:field="*{monHoc.tenMonHoc}"
+                               readonly="readonly" th:value="${diem.monHoc.tenMonHoc}">
+                    </div>
+
+                    <!-- Điểm số -->
+                    <div class="form-group mb-3">
+                        <label style="margin-bottom: 8px" for="diem">Điểm <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="diem" th:field="*{diemSo}" placeholder="Nhập điểm">
+                    </div>
+
+                    <!-- Nút lưu và hủy -->
+                    <button type="submit" class="btn btn-warning">
+                        <i style="margin-right: 10px;" class="fa-regular fa-floppy-disk"></i>Lưu thông tin
+                    </button>
+                    <a th:href="@{/diem}" class="btn btn-danger">
+                        <i style="margin-right: 10px;" class="fa-regular fa-circle-xmark"></i>Hủy bỏ
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

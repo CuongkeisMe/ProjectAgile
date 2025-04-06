@@ -1,0 +1,35 @@
+<div th:fragment="content">
+    <div class="content-home">
+        <div style="height: 365px" class="container-fluid">
+            <h2 style="color: #564E5C; font-family: VnBlackH; margin-top: 10px; margin-bottom: 10px">Thêm mới điểm</h2>
+            <div>
+                <form th:action="@{/diem/add}" th:object="${diem}" method="post">
+                    <div class="form-group mb-3">
+                        <label style="margin-bottom: 8px" for="sinhVien">Sinh viên</label>
+                        <select th:field="*{sinhVien}" class="form-control" id="sinhVien">
+                            <option value="" th:selected="${sinhVien == null}">Chọn sinh viên</option>
+                            <option th:each="sv : ${listSV}" th:text="${sv.hoTen}" th:value="${sv.idSinhVien}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label style="margin-bottom: 8px" for="monHoc">Môn học</label>
+                        <select th:field="*{monHoc}" class="form-control" id="monHoc">
+                            <option value="" th:selected="${monHoc == null}">Chọn môn học</option>
+                            <option th:each="mh : ${listMonHoc}" th:text="${mh.tenMonHoc}" th:value="${mh.idMonHoc}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label style="margin-bottom: 8px" for="diem">Điểm <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="diem" th:field="*{diemSo}" placeholder="Điểm">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i style="margin-right: 10px;" class="fa-regular fa-floppy-disk"></i>Lưu thông tin
+                    </button>
+                    <a th:href="@{/diem}" class="btn btn-danger">
+                        <i style="margin-right: 10px;" class="fa-regular fa-circle-xmark"></i>Hủy bỏ
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

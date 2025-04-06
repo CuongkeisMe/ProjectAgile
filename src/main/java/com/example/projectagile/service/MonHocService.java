@@ -13,8 +13,9 @@ public class MonHocService implements IMonHocService {
 
     private final MonHocRepository monHocRepository;
 
+
     @Override
-    public List<MonHoc> getAllMonHoc() {
-        return monHocRepository.findAll();
+    public List<MonHoc> findAllByGiangVienId(Long giangVienId) {
+        return monHocRepository.findAllByGiangVienId(giangVienId);
     }
 }

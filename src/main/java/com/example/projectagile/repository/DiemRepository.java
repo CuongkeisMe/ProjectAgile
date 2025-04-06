@@ -2,6 +2,8 @@ package com.example.projectagile.repository;
 
 import com.example.projectagile.dto.DiemDTO;
 import com.example.projectagile.model.Diem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,9 +20,10 @@ public interface DiemRepository extends JpaRepository<Diem, Long> {
             "WHERE mh.giangVien.idGiangVien = :idGiangVien " +
             "AND (:tenSinhVien IS NULL OR sv.hoTen LIKE %:tenSinhVien%) " +
             "AND (:idMonHoc IS NULL OR mh.idMonHoc = :idMonHoc)")
-    List<DiemDTO> getDiemByGiangVien(
+    Page<DiemDTO> getDiemByGiangVien(
             @Param("idGiangVien") Long idGiangVien,
             @Param("tenSinhVien") String tenSinhVien,
-            @Param("idMonHoc") Long idMonHoc);
+            @Param("idMonHoc") Long idMonHoc,
+            Pageable pageable);
 
 }

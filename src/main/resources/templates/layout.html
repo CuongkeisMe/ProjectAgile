@@ -34,4 +34,14 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var successMessage = document.getElementById("success-message");
+        if (successMessage) {
+            setTimeout(function() {
+                successMessage.style.display = "none"; // Ẩn thông báo sau 3 giây
+            }, 1600);
+        }
+    });
+</script>
 </html>

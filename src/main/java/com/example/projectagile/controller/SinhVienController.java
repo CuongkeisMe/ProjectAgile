@@ -1,6 +1,7 @@
 package com.example.projectagile.controller;
 
 import com.example.projectagile.dto.SinhVienDTO;
+import com.example.projectagile.model.SinhVien;
 import com.example.projectagile.service.GiangVienService;
 import com.example.projectagile.service.KhoaHocService;
 import com.example.projectagile.service.LopService;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
@@ -16,13 +18,14 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/sinh-vien")
 public class SinhVienController {
     private final SinhVienService sinhVienService;
     private final GiangVienService giangVienService;
     private final KhoaHocService khoaHocService;
     private final LopService lopService;
 
-    @GetMapping("/sinh-vien")
+    @GetMapping("")
     public String getStudentsByLoggedInGiangVien(
             Principal principal,
             @RequestParam(required = false) String maSinhVien,
@@ -39,7 +42,7 @@ public class SinhVienController {
         System.out.println("idGiangVien = " + idGiangVien);
 
         // Lấy danh sách sinh viên theo điều kiện tìm kiếm (hoặc tất cả nếu không có điều kiện)
-        List<SinhVienDTO> sinhVienList = sinhVienService.getAllSinhVien(idGiangVien, maSinhVien, tenSinhVien, idKhoaHoc, idLop);
+        List<SinhVienDTO> sinhVienList = sinhVienService.getAllSinhVienAndSearch(idGiangVien, maSinhVien, tenSinhVien, idKhoaHoc, idLop);
 
         // Thêm dữ liệu vào Model
         model.addAttribute("listSinhVien", sinhVienList);
@@ -55,6 +58,14 @@ public class SinhVienController {
         // Xác định file giao diện
         model.addAttribute("nameFile", "sinhvien/sinhvien");
         return "layout"; // Trả về layout chính
+    }
+
+    @GetMapping("/add")
+    public String formAdd(Model model) {
+        model.addAttribute("sinhVien", new SinhVien());
+        model.addAttribute("listLop", lopService.getAllLop());
+        model.addAttribute("nameFile", "sinhvien/add_sinhvien");
+        return "layout";
     }
 
 }

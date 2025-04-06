@@ -7,6 +7,9 @@
                     <i style="color: white" class="fas fa-plus"></i> Thêm mới
                 </a>
             </div>
+            <div th:if="${message}"id="success-message" class="alert alert-success" role="alert">
+                <span th:text="${message}"></span>
+            </div>
             <form th:action="@{/diem}" method="get">
                 <div class="row">
                     <!-- Ô nhập Tên Sinh viên -->
@@ -49,8 +52,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="d, stat : ${listDiem}">
-                    <td th:text="${stat.index + 1}"></td> <!-- STT bắt đầu từ 1 -->
+                <tr th:each="d, stat : ${pages}">
+                    <td th:text="${d.idDiem}"></td> <!-- STT bắt đầu từ 1 -->
                     <td th:text="${d.maSinhVien}"></td>
                     <td th:text="${d.hoTen}"></td>
                     <td th:text="${d.tenMonHoc}"></td>
@@ -68,6 +71,25 @@
                 </tr>
                 </tbody>
             </table>
+            <nav th:if="${pages.totalElements > 0}">
+                <ul class="pagination">
+                    <li class="page-item" th:if="${currentPage > 0}">
+                        <a class="page-link" th:href="@{/diem(p=${currentPage - 1}, idGiangVien=${idGiangVien}, tenSinhVien=${tenSinhVien}, idMonHoc=${idMonHoc})}">
+                            Previous
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, pages.totalPages - 1)}"
+                        th:classappend="${i == currentPage} ? 'active' : ''">
+                        <a class="page-link" th:href="@{/diem(p=${i}, idGiangVien=${idGiangVien}, tenSinhVien=${tenSinhVien}, idMonHoc=${idMonHoc})}"
+                           th:text="${i + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:if="${currentPage < totalPages - 1 }">
+                        <a class="page-link" th:href="@{/diem(p=${currentPage + 1}, idGiangVien=${idGiangVien}, tenSinhVien=${tenSinhVien}, idMonHoc=${idMonHoc})}">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
