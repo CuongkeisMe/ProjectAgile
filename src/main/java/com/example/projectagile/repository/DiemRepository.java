@@ -17,7 +17,7 @@ public interface DiemRepository extends JpaRepository<Diem, Long> {
             "FROM Diem d " +
             "JOIN d.sinhVien sv " +
             "JOIN d.monHoc mh " +
-            "WHERE mh.giangVien.idGiangVien = :idGiangVien " +
+            "WHERE (:idGiangVien IS NULL OR mh.giangVien.idGiangVien = :idGiangVien) " +
             "AND (:tenSinhVien IS NULL OR sv.hoTen LIKE %:tenSinhVien%) " +
             "AND (:idMonHoc IS NULL OR mh.idMonHoc = :idMonHoc)")
     Page<DiemDTO> getDiemByGiangVien(

@@ -2,10 +2,8 @@ package com.example.projectagile.controller;
 
 import com.example.projectagile.dto.SinhVienDTO;
 import com.example.projectagile.model.SinhVien;
-import com.example.projectagile.service.GiangVienService;
-import com.example.projectagile.service.KhoaHocService;
-import com.example.projectagile.service.LopService;
-import com.example.projectagile.service.SinhVienService;
+import com.example.projectagile.model.User;
+import com.example.projectagile.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,33 +18,49 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/sinh-vien")
 public class SinhVienController {
+
     private final SinhVienService sinhVienService;
     private final GiangVienService giangVienService;
     private final KhoaHocService khoaHocService;
     private final LopService lopService;
+    private final UserService userService;
 
     @GetMapping("")
-    public String getStudentsByLoggedInGiangVien(
+    public String getStudentsByLoggedInUser(
             Principal principal,
             @RequestParam(required = false) String maSinhVien,
             @RequestParam(required = false) String tenSinhVien,
             @RequestParam(required = false) Long idKhoaHoc,
             @RequestParam(required = false) Long idLop,
             Model model) {
-        // Lấy username của giảng viên đã đăng nhập
+        // Lấy username của người dùng đã đăng nhập
         String username = principal.getName();
-        // Dùng username để truy vấn ID của giảng viên
-        Long idGiangVien = giangVienService.getIdByUsername(username);
 
-        // Debug ID giảng viên
-        System.out.println("idGiangVien = " + idGiangVien);
+        // Lấy thông tin người dùng (admin hoặc giảng viên)
+        User user = userService.getUserByUsername(username);
 
-        // Lấy danh sách sinh viên theo điều kiện tìm kiếm (hoặc tất cả nếu không có điều kiện)
-        List<SinhVienDTO> sinhVienList = sinhVienService.getAllSinhVienAndSearch(idGiangVien, maSinhVien, tenSinhVien, idKhoaHoc, idLop);
+        List<SinhVienDTO> sinhVienList;
+
+        // Kiểm tra vai trò của người dùng
+        if ("admin".equals(user.getRole())) {
+            // Admin: Lấy tất cả sinh viên trong hệ thống
+            sinhVienList = sinhVienService.getAllSinhVienAndSearch(null, maSinhVien, tenSinhVien, idKhoaHoc, idLop);
+        } else if ("teacher".equals(user.getRole())) {
+            // Giảng viên: Lấy ID giảng viên từ User
+            Long idGiangVien = giangVienService.getIdByUsername(username);
+
+            // Debug ID giảng viên
+            System.out.println("idGiangVien = " + idGiangVien);
+
+            // Lấy danh sách sinh viên liên quan đến giảng viên
+            sinhVienList = sinhVienService.getAllSinhVienAndSearch(idGiangVien, maSinhVien, tenSinhVien, idKhoaHoc, idLop);
+        } else {
+            throw new RuntimeException("Người dùng không có quyền truy cập!");
+        }
 
         // Thêm dữ liệu vào Model
         model.addAttribute("listSinhVien", sinhVienList);
-        model.addAttribute("listKhoaHoc", khoaHocService.getAllKhoaHoc()); // Lấy danh sách khoa học
+        model.addAttribute("listKhoaHoc", khoaHocService.getAllKhoaHoc()); // Lấy danh sách khóa học
         model.addAttribute("listLop", lopService.getAllLop()); // Lấy danh sách lớp học
 
         // Truyền lại giá trị tìm kiếm vào model

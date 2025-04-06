@@ -1,0 +1,29 @@
+<div th:fragment="content">
+    <div class="content-home">
+        <div class="container-fluid">
+            <h2 style="color: #564E5C; font-family: VnBlackH; margin-top: 10px; margin-bottom: 10px">Lịch Dạy</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Môn học</th>
+                    <th>Ngày học</th>
+                    <th>Giờ bắt đầu</th>
+                    <th>Giờ kết thúc</th>
+                    <th>Mã lớp</th>
+                    <th>Tên lớp</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lich : ${lichDayList}">
+                    <td th:text="${lich.tenMonHoc}"></td>
+                    <td th:text="${lich.ngayHoc}"></td>
+                    <td th:text="${lich.gioBatDau}"></td>
+                    <td th:text="${lich.gioKetThuc}"></td>
+                    <td th:text="${lich.maLop}"></td>
+                    <td th:text="${lich.tenLop}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface MonHocRepository extends JpaRepository<MonHoc, Long> {
-    @Query("SELECT m FROM MonHoc m WHERE m.giangVien.idGiangVien = :giangVienId")
-    List<MonHoc> findAllByGiangVienId(@Param("giangVienId") Long giangVienId);
+    @Query("SELECT m FROM MonHoc m WHERE (:idGiangVien IS NULL OR m.giangVien.idGiangVien = :idGiangVien)")
+    List<MonHoc> findAllByGiangVienId(@Param("idGiangVien") Long idGiangVien);
 }

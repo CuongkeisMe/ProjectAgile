@@ -4,10 +4,8 @@ import com.example.projectagile.dto.DiemDTO;
 import com.example.projectagile.dto.SinhVienDTO;
 import com.example.projectagile.model.Diem;
 import com.example.projectagile.model.SinhVien;
-import com.example.projectagile.service.DiemService;
-import com.example.projectagile.service.GiangVienService;
-import com.example.projectagile.service.MonHocService;
-import com.example.projectagile.service.SinhVienService;
+import com.example.projectagile.model.User;
+import com.example.projectagile.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,25 +27,46 @@ public class DiemController {
     private final DiemService diemService;
     private final MonHocService monHocService;
     private final SinhVienService sinhVienService;
+    private final UserService userService;
 
     @GetMapping("")
-    public String getDiemByLoggedInGiangVien(
+    public String getDiemByLoggedInUser(
             Principal principal,
             @RequestParam(required = false) String tenSinhVien,
             @RequestParam(required = false) Long idMonHoc,
             @RequestParam(defaultValue = "0") int p,
             Model model) {
-        // Lấy username của giảng viên đăng nhập
+        // Lấy username của người dùng đã đăng nhập
         String username = principal.getName();
-        Long idGiangVien = giangVienService.getIdByUsername(username);
-        // Phan trang
+
+        // Lấy thông tin người dùng (admin hoặc giảng viên)
+        User user = userService.getUserByUsername(username);
+
+        // Phân trang
         Pageable pageable = PageRequest.of(p, 8);
-        // Lấy danh sách điểm của sinh viên dựa trên điều kiện tìm kiếm (nếu có)
-        Page<DiemDTO> pages = diemService.getAllDiem(idGiangVien, tenSinhVien, idMonHoc, pageable);
+        Page<DiemDTO> pages;
+
+        // Kiểm tra vai trò của người dùng
+        if ("admin".equals(user.getRole())) {
+            // Admin: Lấy toàn bộ danh sách điểm
+            pages = diemService.getAllDiem(null, tenSinhVien, idMonHoc, pageable);
+            model.addAttribute("listMonHoc", monHocService.findAllByGiangVienId(null)); // Admin: Lấy danh sách tất cả môn học
+        } else if ("teacher".equals(user.getRole())) {
+            // Giảng viên: Lấy ID giảng viên từ User
+            Long idGiangVien = giangVienService.getIdByUsername(username);
+
+            // Debug ID giảng viên
+            System.out.println("idGiangVien = " + idGiangVien);
+
+            // Lấy danh sách điểm theo ID giảng viên
+            pages = diemService.getAllDiem(idGiangVien, tenSinhVien, idMonHoc, pageable);
+            model.addAttribute("listMonHoc", monHocService.findAllByGiangVienId(idGiangVien)); // Lấy môn học của giảng viên
+        } else {
+            throw new RuntimeException("Người dùng không có quyền truy cập!");
+        }
 
         // Thêm dữ liệu vào Model
         model.addAttribute("listDiem", pages);
-        model.addAttribute("listMonHoc", monHocService.findAllByGiangVienId(idGiangVien)); // Lấy danh sách môn học
         model.addAttribute("tenSinhVien", tenSinhVien); // Giữ giá trị đã nhập cho ô tìm kiếm tên sinh viên
         model.addAttribute("idMonHoc", idMonHoc); // Giữ lựa chọn của dropdown môn học
         model.addAttribute("pages", pages);
@@ -56,6 +75,7 @@ public class DiemController {
         model.addAttribute("nameFile", "diem/diem");
         return "layout"; // Trả về layout chính
     }
+
 
     @GetMapping("/add")
     public String formAdd(Principal principal, Model model) {

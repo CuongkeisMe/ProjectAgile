@@ -35,15 +35,20 @@ public class HomeController {
             GiangVien giangVien = user.getGiangVien();
             model.addAttribute("giangVien", giangVien);
         }
+        if ("admin".equals(user.getRole())) {
+            // Admin
+            model.addAttribute("tongKhoaHoc", khoaHocRepository.findAll().size());
+            model.addAttribute("tongMonHoc", monHocRepository.findAll().size());
+            model.addAttribute("tongSinhVien", sinhVienRepository.findAll().size());
+            model.addAttribute("tongLopHoc", lopRepository.findAll().size());
+            model.addAttribute("tongGiangVien", giangVienRepository.findAll().size());
+            model.addAttribute("nameFile", "home");
+        } else {
+            // Giảng viên: Lấy ID giảng viên từ User
+            model.addAttribute("nameFile", "home_teacher");
+        }
         model.addAttribute("user", user);
-        model.addAttribute("tongKhoaHoc", khoaHocRepository.findAll().size());
-        model.addAttribute("tongMonHoc", monHocRepository.findAll().size());
-        model.addAttribute("tongSinhVien", sinhVienRepository.findAll().size());
-        model.addAttribute("tongLopHoc", lopRepository.findAll().size());
-        model.addAttribute("tongGiangVien", giangVienRepository.findAll().size());
-        model.addAttribute("nameFile", "home");
         return "layout";
     }
-
 
 }
