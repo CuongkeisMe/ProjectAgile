@@ -6,12 +6,14 @@ import com.example.projectagile.model.Diem;
 import com.example.projectagile.model.SinhVien;
 import com.example.projectagile.model.User;
 import com.example.projectagile.service.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -79,21 +81,59 @@ public class DiemController {
 
     @GetMapping("/add")
     public String formAdd(Principal principal, Model model) {
-        // Lấy username của giảng viên đăng nhập
         String username = principal.getName();
-        Long idGiangVien = giangVienService.getIdByUsername(username);
+        User user = userService.getUserByUsername(username); // Lấy user từ username
+
         model.addAttribute("diem", new Diem());
-        model.addAttribute("listSV", sinhVienService.getAllSinhVienTheoGiangVien(idGiangVien));
-        model.addAttribute("listMonHoc", monHocService.findAllByGiangVienId(idGiangVien));
+
+        if ("teacher".equals(user.getRole())) {
+            Long idGiangVien = giangVienService.getIdByUsername(username);
+            model.addAttribute("listSV", sinhVienService.getAllSinhVienTheoGiangVien(idGiangVien));
+            model.addAttribute("listMonHoc", monHocService.findAllByGiangVienId(idGiangVien));
+        } else if ("admin".equals(user.getRole())) {
+            model.addAttribute("listSV", sinhVienService.getAllSinhVienTheoGiangVien(null));
+            model.addAttribute("listMonHoc", monHocService.getAllMH());
+        }
+
         model.addAttribute("nameFile", "diem/add_diem");
         return "layout";
     }
 
+
     @PostMapping("/add")
-    public String addDiem(@ModelAttribute("diem") Diem diem, Model model, RedirectAttributes redirectAttributes) {
+    public String addDiem(@Valid @ModelAttribute("diem") Diem diem, BindingResult result, Model model, RedirectAttributes redirectAttributes, Principal principal) {
+        // Lấy thông tin người dùng từ principal (tên đăng nhập)
+        String username = principal.getName();
+        User user = userService.getUserByUsername(username); // Lấy thông tin người dùng từ username
+        Long idGiangVien = null;
+
+        // Kiểm tra vai trò của người dùng
+        if ("teacher".equals(user.getRole())) {
+            // Nếu là giảng viên, lấy ID giảng viên từ tên đăng nhập
+            idGiangVien = giangVienService.getIdByUsername(username);
+        }
+
+        // Kiểm tra nếu có lỗi validation
+        if (result.hasErrors()) {
+            // Nếu có lỗi validation, hiển thị lại form và truyền thông tin danh sách sinh viên và môn học
+            if ("admin".equals(user.getRole())) {
+                // Nếu là admin, lấy tất cả sinh viên
+                model.addAttribute("listSV", sinhVienService.getAllSinhVienTheoGiangVien(null));
+            } else {
+                // Nếu là giảng viên, chỉ lấy sinh viên của giảng viên đó
+                model.addAttribute("listSV", sinhVienService.getAllSinhVienTheoGiangVien(idGiangVien));
+            }
+            model.addAttribute("diem", diem);
+            // Truyền danh sách môn học
+            model.addAttribute("listMonHoc", monHocService.getAllMH());
+            model.addAttribute("nameFile", "diem/add_diem");
+            return "layout"; // Trả lại giao diện form nhập điểm
+        }
+
+        // Thêm điểm vào database
         diemService.addDiem(diem);
         redirectAttributes.addFlashAttribute("message", "Thêm thành công!");
-        return "redirect:/diem";
+        return "redirect:/diem"; // Chuyển hướng về trang điểm sau khi thêm
     }
 
     @GetMapping("/delete/{id}")
@@ -102,19 +142,58 @@ public class DiemController {
         redirectAttributes.addFlashAttribute("message", "Xóa thành công!");
         return "redirect:/diem";
     }
-
+    
     @GetMapping("/update/{id}")
-    public String detailDiem(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("diem", diemService.getDiemById(id));
+    public String detailDiem(@PathVariable("id") Long id, Model model, Principal principal) {
+        Diem diem = diemService.getDiemById(id);
+        model.addAttribute("diem", diem);
+
+        // Lấy username đang đăng nhập
+        String username = principal.getName();
+        User user = userService.getUserByUsername(username);
+
+        if ("admin".equals(user.getRole())) {
+            model.addAttribute("listSV", sinhVienService.getAllSinhVienTheoGiangVien(null));
+            model.addAttribute("listMonHoc", monHocService.getAllMH());
+        } else if ("teacher".equals(user.getRole())) {
+            Long idGiangVien = giangVienService.getIdByUsername(username);
+            model.addAttribute("listSV", sinhVienService.getAllSinhVienTheoGiangVien(idGiangVien));
+            model.addAttribute("listMonHoc", monHocService.findAllByGiangVienId(idGiangVien));
+        }
+
         model.addAttribute("nameFile", "diem/update_diem");
         return "layout";
     }
 
     @PostMapping("/update/{id}")
-    public String updateDiem(@PathVariable("id") Long id, @ModelAttribute("diem") Diem diem, RedirectAttributes redirectAttributes) {
+    public String updateDiem(@PathVariable("id") Long id,
+                             @Valid @ModelAttribute("diem") Diem diem,
+                             BindingResult result,
+                             Model model,
+                             Principal principal,
+                             RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            String username = principal.getName();
+            User user = userService.getUserByUsername(username);
+
+            if ("admin".equals(user.getRole())) {
+                model.addAttribute("listSV", sinhVienService.getAllSinhVienTheoGiangVien(null));
+                model.addAttribute("listMonHoc", monHocService.getAllMH());
+            } else if ("teacher".equals(user.getRole())) {
+                Long idGiangVien = giangVienService.getIdByUsername(username);
+                model.addAttribute("listSV", sinhVienService.getAllSinhVienTheoGiangVien(idGiangVien));
+                model.addAttribute("listMonHoc", monHocService.findAllByGiangVienId(idGiangVien));
+            }
+
+            model.addAttribute("nameFile", "diem/update_diem");
+            return "layout"; // Trả lại form nếu có lỗi
+        }
+
         diemService.updateDiem(diem, id);
         redirectAttributes.addFlashAttribute("message", "Sửa thành công!");
         return "redirect:/diem";
     }
+
+
 
 }

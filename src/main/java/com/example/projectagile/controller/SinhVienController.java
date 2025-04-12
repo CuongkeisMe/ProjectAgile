@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -80,13 +81,22 @@ public class SinhVienController {
         model.addAttribute("nameFile", "sinhvien/add_sinhvien");
         return "layout";
     }
+
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("sinhVien") SinhVien sinhVien, Model model) {
+    public String save(@Valid @ModelAttribute("sinhVien") SinhVien sinhVien,
+                       BindingResult result,
+                       Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("listLop", lopService.getAllLop());
+            model.addAttribute("nameFile", "sinhvien/add_sinhvien"); // hoặc form sửa nếu là edit
+            return "layout";
+        }
+
         sinhVienService.addSV(sinhVien);
-        model.addAttribute("listLop", lopService.getAllLop());
-        model.addAttribute("nameFile", "sinhvien/sinhvien");
         return "redirect:/sinh-vien";
     }
+
+
     @GetMapping("/update/{id}")
     public String formUpdate(@PathVariable Long id, Model model) {
         model.addAttribute("sinhVien", sinhVienService.getSVById(id));
@@ -94,10 +104,19 @@ public class SinhVienController {
         model.addAttribute("nameFile", "sinhvien/update_sinhVien");
         return "layout";
     }
+
     @PostMapping("/updateSV")
-    public String updateSV(@ModelAttribute("sinhVien") SinhVien sinhVien) {
+    public String updateSV(@Valid @ModelAttribute("sinhVien") SinhVien sinhVien,
+                           BindingResult result,
+                           Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("listLop", lopService.getAllLop());
+            model.addAttribute("nameFile", "sinhvien/update_sinhvien"); // hoặc form update bạn đang dùng
+            return "layout"; // quay về form edit nếu có lỗi
+        }
         sinhVienService.updateSV(sinhVien);
         return "redirect:/sinh-vien";
     }
+
 
 }

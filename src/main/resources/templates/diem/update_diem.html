@@ -1,33 +1,32 @@
 <div th:fragment="content">
     <div class="content-home">
-        <div style="height: 365px" class="container-fluid">
-            <h2 style="color: #564E5C; font-family: VnBlackH; margin-top: 10px; margin-bottom: 10px">
-                Chi tiết điểm của sinh viên: <span th:text="${diem.sinhVien.hoTen}"></span>
-            </h2>
+        <div style="height: 400px" class="container-fluid">
+            <h2 style="color: #564E5C; font-family: VnBlackH; margin-top: 10px; margin-bottom: 10px">Update điểm</h2>
             <div>
-                <form th:action="@{/diem/update/{id}(id=${diem.idDiem})}" th:object="${diem}" method="post">
-                    <!-- Sinh viên -->
+                <!-- Form nhập điểm -->
+                <form th:action="@{/diem/add}" th:object="${diem}" method="post">
                     <div class="form-group mb-3">
-                        <label style="margin-bottom: 8px" for="sinhVien">Sinh viên</label>
-                        <input type="text" class="form-control" id="sinhVien" th:field="*{sinhVien.hoTen}"
-                               readonly="readonly" th:value="${diem.sinhVien.hoTen}">
+                        <label for="sinhVien">Sinh viên</label>
+                        <select th:field="*{sinhVien}" class="form-control" id="sinhVien">
+                            <option value="">Chọn sinh viên</option>
+                            <option th:each="sv : ${listSV}" th:value="${sv.idSinhVien}" th:text="${sv.hoTen}"></option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('sinhVien')}" th:errors="*{sinhVien}"></div>
                     </div>
-
-                    <!-- Môn học -->
                     <div class="form-group mb-3">
-                        <label style="margin-bottom: 8px" for="monHoc">Môn học</label>
-                        <input type="text" class="form-control" id="monHoc" th:field="*{monHoc.tenMonHoc}"
-                               readonly="readonly" th:value="${diem.monHoc.tenMonHoc}">
+                        <label for="monHoc">Môn học</label>
+                        <select th:field="*{monHoc}" class="form-control" id="monHoc">
+                            <option value="">Chọn môn học</option>
+                            <option th:each="mh : ${listMonHoc}" th:value="${mh.idMonHoc}" th:text="${mh.tenMonHoc}"></option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('monHoc')}" th:errors="*{monHoc}"></div>
                     </div>
-
-                    <!-- Điểm số -->
                     <div class="form-group mb-3">
-                        <label style="margin-bottom: 8px" for="diem">Điểm <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="diem" th:field="*{diemSo}" placeholder="Nhập điểm">
+                        <label for="diem">Điểm <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="diem" th:field="*{diemSo}" placeholder="Điểm">
+                        <div class="text-danger" th:if="${#fields.hasErrors('diemSo')}" th:errors="*{diemSo}"></div>
                     </div>
-
-                    <!-- Nút lưu và hủy -->
-                    <button type="submit" class="btn btn-warning">
+                    <button type="submit" class="btn btn-primary">
                         <i style="margin-right: 10px;" class="fa-regular fa-floppy-disk"></i>Lưu thông tin
                     </button>
                     <a th:href="@{/diem}" class="btn btn-danger">
