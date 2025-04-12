@@ -4,12 +4,11 @@ import com.example.projectagile.dto.SinhVienDTO;
 import com.example.projectagile.model.SinhVien;
 import com.example.projectagile.model.User;
 import com.example.projectagile.service.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -80,6 +79,25 @@ public class SinhVienController {
         model.addAttribute("listLop", lopService.getAllLop());
         model.addAttribute("nameFile", "sinhvien/add_sinhvien");
         return "layout";
+    }
+    @PostMapping("/save")
+    public String save(@Valid @ModelAttribute("sinhVien") SinhVien sinhVien, Model model) {
+        sinhVienService.addSV(sinhVien);
+        model.addAttribute("listLop", lopService.getAllLop());
+        model.addAttribute("nameFile", "sinhvien/sinhvien");
+        return "redirect:/sinh-vien";
+    }
+    @GetMapping("/update/{id}")
+    public String formUpdate(@PathVariable Long id, Model model) {
+        model.addAttribute("sinhVien", sinhVienService.getSVById(id));
+        model.addAttribute("listLop", lopService.getAllLop());
+        model.addAttribute("nameFile", "sinhvien/update_sinhVien");
+        return "layout";
+    }
+    @PostMapping("/updateSV")
+    public String updateSV(@ModelAttribute("sinhVien") SinhVien sinhVien) {
+        sinhVienService.updateSV(sinhVien);
+        return "redirect:/sinh-vien";
     }
 
 }

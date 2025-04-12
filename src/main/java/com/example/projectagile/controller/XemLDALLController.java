@@ -40,7 +40,7 @@ public class XemLDALLController {
         this.khoaHocService = khoaHocService;
     }
 
-    @GetMapping("/xemlich")
+        @GetMapping("/xemlich")
     public String xemlich(Model model, SinhVien sinhvien) {
         List<SinhVien> sv = xemDSSVOfAdService.getAllSV();
         model.addAttribute("sv", sv);

@@ -18,4 +18,11 @@ public class MonHocService implements IMonHocService {
     public List<MonHoc> findAllByGiangVienId(Long giangVienId) {
         return monHocRepository.findAllByGiangVienId(giangVienId);
     }
+    public List<MonHoc> getAllMH() {
+        return monHocRepository.findAll();
+    }
+
+    public void save(MonHoc monHoc) {
+        monHocRepository.save(monHoc);
+    }
 }

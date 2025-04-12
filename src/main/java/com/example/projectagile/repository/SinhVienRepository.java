@@ -16,9 +16,9 @@ public interface SinhVienRepository extends JpaRepository<SinhVien, Long> {
             "FROM SinhVien sv " +
             "JOIN Lop l ON sv.lop.idLop = l.idLop " +
             "JOIN KhoaHoc kh ON l.khoaHoc.idKhoaHoc = kh.idKhoaHoc " +
-            "JOIN Diem d ON sv.idSinhVien = d.sinhVien.idSinhVien " +
-            "JOIN MonHoc mh ON d.monHoc.idMonHoc = mh.idMonHoc " +
-            "WHERE (:idGiangVien IS NULL OR mh.giangVien.idGiangVien = :idGiangVien)" +
+            "LEFT JOIN Diem d ON sv.idSinhVien = d.sinhVien.idSinhVien " +
+            "LEFT JOIN MonHoc mh ON d.monHoc.idMonHoc = mh.idMonHoc " +
+            "WHERE (:idGiangVien IS NULL OR mh.giangVien.idGiangVien = :idGiangVien) " +
             "AND (:maSinhVien IS NULL OR sv.maSinhVien LIKE %:maSinhVien%) " +
             "AND (:tenSinhVien IS NULL OR sv.hoTen LIKE %:tenSinhVien%) " +
             "AND (:idKhoaHoc IS NULL OR kh.idKhoaHoc = :idKhoaHoc) " +

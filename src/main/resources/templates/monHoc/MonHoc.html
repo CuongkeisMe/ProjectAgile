@@ -1,0 +1,63 @@
+<div th:fragment="content">
+  <div class="container py-4">
+    <div class="row gy-4">
+      <!-- Cột Form (6/12) -->
+      <div class="col-md-6">
+      </div>
+      <div class="card-body">
+        <form th:action="@{/MonHoc/Add}" th:object="${monHoc}" method="post">
+          <div class="mb-3">
+            <label class="form-label">Mã Môn Học</label>
+            <input type="text" class="form-control" th:field="*{maMonHoc}" placeholder="Nhập mã môn học">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tên Môn Học</label>
+            <input type="text" class="form-control" th:field="*{tenMonHoc}" placeholder="Nhập tên môn học">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Giảng Viên</label>
+            <select class="form-select" th:field="*{giangVien}">
+              <option value="" disabled selected>-- Chọn giảng viên --</option>
+              <option th:each="gv : ${giangVienList}"
+                      th:value="${gv.idGiangVien}"
+                      th:text="${gv.hoTen}"></option>
+            </select>
+          </div>
+          <div class="text-center mt-3">
+            <button type="submit" class="btn btn-success">Thêm Môn Học</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cột Bảng (6/12) -->
+  <div class="col-md-6">
+
+
+  </div>
+  <div class="card-body">
+
+    <table class="table table-bordered table-hover table-striped w-100 text-center align-middle">
+      <thead class="table-dark">
+      <tr>
+        <th>Mã</th>
+        <th>Tên Môn Học</th>
+        <th>Giảng Viên</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="a: ${list}">
+        <td th:text="${a.maMonHoc}"></td>
+        <td th:text="${a.tenMonHoc}"></td>
+        <td th:text="${a.giangVien.hoTen}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
