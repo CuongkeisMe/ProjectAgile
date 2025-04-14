@@ -1,7 +1,10 @@
 package com.example.projectagile.repository;
 
+import com.example.projectagile.dto.LichHocSinhVienDTO;
 import com.example.projectagile.dto.SinhVienDTO;
 import com.example.projectagile.model.SinhVien;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,7 +45,14 @@ public interface SinhVienRepository extends JpaRepository<SinhVien, Long> {
 
     // hao
     List<SinhVien> findByLop_IdLopAndLop_KhoaHoc_IdKhoaHoc(Long idLop, Long idKhoaHoc);
+
     List<SinhVien> findByLopIdLop(Long idLop);
+
     List<SinhVien> findByLopKhoaHocIdKhoaHoc(Long idKhoaHoc);
+
     List<SinhVien> findByLopIdLopAndLopKhoaHocIdKhoaHoc(Long idLop, Long idKhoaHoc);
+
+    @Query("SELECT new com.example.projectagile.dto.LichHocSinhVienDTO(sv.maSinhVien, sv.hoTen, mh.tenMonHoc, lh.ngayHoc, lh.gioBatDau, lh.gioKetThuc) FROM SinhVien sv JOIN Lop l ON sv.lop.idLop = l.idLop JOIN KhoaHoc kh ON l.khoaHoc.idKhoaHoc = kh.idKhoaHoc JOIN MonHoc mh ON mh.giangVien.idGiangVien IS NOT NULL JOIN LichHoc lh ON lh.monHoc.idMonHoc = mh.idMonHoc")
+    Page<LichHocSinhVienDTO> getAllLichHocSinhVien(Pageable pageable);
+
 }

@@ -30,28 +30,17 @@ public class LichDayController {
     @GetMapping("")
     public String getLichDayByUser(Model model, Principal principal) {
         String username = principal.getName();
-
-        // Lấy thông tin người dùng
         User user = userService.getUserByUsername(username);
-
-        List<LichDayDTO> lichDayList;
-
-        // Kiểm tra role
-        if ("admin".equals(user.getRole())) {
-            // Nếu là admin, lấy toàn bộ lịch dạy
-            lichDayList = lichHocRepository.getLichDayByGiangVien(null);
-        } else if ("teacher".equals(user.getRole())) {
-            // Nếu là giảng viên, lấy lịch dạy theo giảng viên
+        if ("teacher".equals(user.getRole())) {
             Long idGiangVien = giangVienService.getIdByUsername(username);
-            lichDayList = lichHocRepository.getLichDayByGiangVien(idGiangVien);
+            List<LichDayDTO> lichDayList = lichHocRepository.getLichDayByGiangVien(idGiangVien);
+            model.addAttribute("lichDayList", lichDayList);
+            model.addAttribute("nameFile", "lich/lich");
+            return "layout";
         } else {
-            throw new RuntimeException("Người dùng không có quyền truy cập!");
+            model.addAttribute("nameFile", "403");
+            return "layout";
         }
-
-        // Truyền dữ liệu ra giao diện
-        model.addAttribute("lichDayList", lichDayList);
-        model.addAttribute("nameFile", "lich/lich");
-        return "layout";
     }
 
 }

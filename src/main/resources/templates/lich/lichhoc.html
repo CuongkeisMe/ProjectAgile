@@ -1,0 +1,43 @@
+<div th:fragment="content">
+    <div class="content-home">
+        <div class="container-fluid">
+            <h2 style="color: #564E5C; font-family: VnBlackH; margin-top: 10px; margin-bottom: 10px; text-align: center;">Lịch Học</h2>
+            <table class="table table-bordered" style="width: 100%; border-collapse: collapse;">
+                <thead style="background-color: #f8f9fa; color: #6c757d; text-align: center;">
+                <tr>
+                    <th style="padding: 10px; font-weight: bold;">Mã sinh viên</th>
+                    <th style="padding: 10px; font-weight: bold;">Họ tên</th>
+                    <th style="padding: 10px; font-weight: bold;">Môn học</th>
+                    <th style="padding: 10px; font-weight: bold;">Ngày học</th>
+                    <th style="padding: 10px; font-weight: bold;">Giờ bắt đầu</th>
+                    <th style="padding: 10px; font-weight: bold;">Giờ kết thúc</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lich : ${lichHocPage.content}" style="text-align: center;">
+                    <td th:text="${lich.maSinhVien}" style="padding: 8px;"></td>
+                    <td th:text="${lich.hoTenSinhVien}" style="padding: 8px;"></td>
+                    <td th:text="${lich.tenMonHoc}" style="padding: 8px;"></td>
+                    <td th:text="${lich.ngayHoc}" style="padding: 8px;"></td>
+                    <td th:text="${lich.gioBatDau}" style="padding: 8px;"></td>
+                    <td th:text="${lich.gioKetThuc}" style="padding: 8px;"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="text-align: center; margin-top: 20px;">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{'?page=' + ${currentPage - 1}}">«</a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{'?page=' + ${i}}" th:text="${i + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{'?page=' + ${currentPage + 1}}">»</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
