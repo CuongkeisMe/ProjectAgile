@@ -4,7 +4,7 @@
             <h2 style="color: #564E5C; font-family: VnBlackH; margin-top: 10px; margin-bottom: 10px">Update điểm</h2>
             <div>
                 <!-- Form nhập điểm -->
-                <form th:action="@{/diem/add}" th:object="${diem}" method="post">
+                <form th:action="@{/diem/update/{id}(id=${diem.idDiem})}" th:object="${diem}" method="post">
                     <div class="form-group mb-3">
                         <label for="sinhVien">Sinh viên</label>
                         <select th:field="*{sinhVien}" class="form-control" id="sinhVien">

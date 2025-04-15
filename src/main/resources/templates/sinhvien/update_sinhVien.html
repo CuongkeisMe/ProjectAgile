@@ -5,7 +5,7 @@
         <h2 style="color: #564E5C; font-family: VnBlackH; margin-top: 10px; margin-bottom: 10px">Update sinh
           viên</h2>
         <div style="margin-bottom: 15px">
-          <form th:action="@{/sinh-vien/updateSV}" th:object="${sinhVien}" method="post">
+          <form th:action="@{/sinh-vien/update/{id}(id=${sinhVien.idSinhVien})}" th:object="${sinhVien}" method="post">
             <div class="form-group mb-3">
               <label style="margin-bottom: 7px" for="maSinhVien">Mã Sinh Viên</label>
               <input type="text" th:field="*{maSinhVien}" class="form-control"

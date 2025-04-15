@@ -105,7 +105,7 @@ public class SinhVienController {
         return "layout";
     }
 
-    @PostMapping("/updateSV")
+    @PostMapping("/update/{id}")
     public String updateSV(@Valid @ModelAttribute("sinhVien") SinhVien sinhVien,
                            BindingResult result,
                            Model model) {
